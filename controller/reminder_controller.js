@@ -45,13 +45,18 @@ let remindersController = {
     let reminderTitle = req.body.title;
     let reminderDesc = req.body.description;
     let reminderComp = req.body.completed;
+    console.log("sending",reminderComp);
     let searchResult = database.cindy.reminders.find((reminder) => {
       return reminder.id == reminderId;
     })
     if(searchResult != undefined) {
       searchResult.title = reminderTitle;
       searchResult.description = reminderDesc;
-      searchResult.completed = Boolean(reminderComp);
+      if (reminderComp === "true") {
+        searchResult.completed = true;
+      } else {
+        searchResult.completed = false;
+      }
     }
     res.redirect("/reminders")
   },
