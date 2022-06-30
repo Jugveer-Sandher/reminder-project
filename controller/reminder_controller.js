@@ -1,4 +1,4 @@
-let database = require("../database");
+let database = require("../models/database");
 
 let remindersController = {
   list: (req, res) => {
