@@ -9,25 +9,21 @@ const localLogin = new LocalStrategy({
     passwordField: "password"
 },
     (email, password, done) => {
-        user = userController.getUserByEmail(email);
-        console.log("user",user)
+        user = userController.getUserEamilIdAndPassword(email, password);
         return user
             ? done(null, user)
             : done(null, false), {
                 message: "Error no user found"
             };
     }
-); 
-
-console.log(user)
+);
 
 passport.serializeUser((user, done) => {
-    console.log(user.id)
     done(null, user.id)
 });
 
-passport.deserializeUser((email, done) => {
-    const user = userController.getUserByEmail(email);
+passport.deserializeUser((id, done) => {
+    const user = userController.getUserByEmail(id)
     if(user) {
         done(null, user);
     } else {

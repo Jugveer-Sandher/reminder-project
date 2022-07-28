@@ -1,5 +1,5 @@
-const database  = require("../models/database");
-const userModel = require("../models/userModel");
+const database = require("../models/userModel").database;
+const userModel = require("../models/userModel").userModel;
 
 const getUserEamilIdAndPassword = (email, password) => {
     const user = userModel.findOne(email);
@@ -11,19 +11,29 @@ const getUserEamilIdAndPassword = (email, password) => {
     return null;
 };
 
-const getUserByEmail = (email) => {
-    let user = userModel.findById(id);
+const getUserByEmail = (id) => {
+    let user = userModel.findById(id)
     if(user) {
         return user;
     }
-    return null;
+    return null; 
 };
 
 const isUserValid = (user, password) => {
     return user.password === password;
 }
 
+const getUserByGitHubIdOrCreate = (profile) => {
+    let user = userModel.findById(profile.id)
+    if(user) {
+        return user;
+    }
+    let createdUser = userModel.createUserWithGithubId(profile);
+    return createdUser;
+}
+
 module.exports = {
     getUserByEmail,
-    getUserEamilIdAndPassword
+    getUserEamilIdAndPassword,
+    getUserByGitHubIdOrCreate
 };
